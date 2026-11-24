@@ -1,0 +1,1627 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NeuroEval | Evaluación Neurológica</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --azul: #173b54;
+    --azul-claro: #287c99;
+    --fondo: #edf3f7;
+    --texto: #243746;
+    --borde: #d5e0e8;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--fondo);
+    color: var(--texto);
+    line-height: 1.6;
+}
+
+header {
+    background: var(--azul);
+    color: white;
+    padding: 25px 7%;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 35px;
+    letter-spacing: 1px;
+}
+
+header p {
+    margin: 0;
+    color: #c4dce9;
+}
+
+nav {
+    background: white;
+    padding: 12px 7%;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--borde);
+}
+
+nav button {
+    background: transparent;
+    color: var(--azul);
+    border: none;
+}
+
+main {
+    max-width: 1050px;
+    margin: auto;
+    padding: 25px;
+}
+
+.panel {
+    background: white;
+    padding: 28px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    border: 1px solid var(--borde);
+    box-shadow: 0 4px 15px #173b5408;
+}
+
+.portada {
+    background: linear-gradient(120deg, #173b54, #287c99);
+    color: white;
+    padding: 40px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+}
+
+.portada h2 {
+    font-size: 30px;
+    margin: 0;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 18px;
+}
+
+.tarjeta {
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    padding: 22px;
+    background: white;
+}
+
+.tarjeta h3 {
+    color: var(--azul);
+    margin-top: 0;
+}
+
+button {
+    background: var(--azul-claro);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 7px;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    filter: brightness(0.92);
+}
+
+.secundario {
+    background: #e5edf3;
+    color: var(--azul);
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--borde);
+    border-radius: 7px;
+    font-size: 15px;
+    background: white;
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+.pregunta {
+    padding: 18px 0;
+    border-bottom: 1px solid var(--borde);
+}
+
+.opcion {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--borde);
+    padding: 12px;
+    border-radius: 7px;
+    margin: 8px 0;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.opcion:hover {
+    background: #edf5fa;
+}
+
+.opcion input {
+    width: auto;
+}
+
+.barra {
+    background: #dce7ef;
+    height: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progreso {
+    background: var(--azul-claro);
+    height: 100%;
+    transition: width 0.3s;
+}
+
+.aviso {
+    padding: 15px;
+    background: #fff7e4;
+    border-left: 4px solid #c59638;
+    border-radius: 5px;
+    margin: 15px 0;
+}
+
+.error {
+    color: #a62b2b;
+    font-weight: bold;
+}
+
+.puntuacion {
+    font-size: 48px;
+    font-weight: bold;
+    color: var(--azul);
+    line-height: 1.2;
+}
+
+.resultado {
+    background: #f2f7fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 12px 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--borde);
+}
+
+th {
+    background: #e6eff5;
+}
+
+.tabla {
+    overflow-x: auto;
+}
+
+.acciones {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 25px;
+}
+
+footer {
+    text-align: center;
+    color: #647887;
+    font-size: 13px;
+    padding: 30px;
+}
+
+@media print {
+    nav, button, footer, .no-imprimir {
+        display: none !important;
+    }
+
+    body {
+        background: white;
+    }
+
+    main {
+        max-width: 100%;
+        padding: 0;
+    }
+
+    .panel {
+        box-shadow: none;
+        break-inside: avoid;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>NeuroEval</h1>
+    <p>Sistema digital de evaluación neurológica</p>
+</header>
+
+<nav>
+    <button onclick="inicio()">Inicio</button>
+    <button onclick="verHistorial()">Historial</button>
+    <button onclick="bibliografia()">Información y bibliografía</button>
+</nav>
+
+<main id="contenido"></main>
+
+<footer>
+    NeuroEval | Proyecto académico de Informática Médica<br>
+    Herramienta educativa. No sustituye la valoración clínica profesional.
+</footer>
+
+<script>
+
+// =====================================================
+// VARIABLES GENERALES
+// =====================================================
+
+let paciente = {};
+let modo = "";
+let etapas = [];
+let etapaActual = 0;
+let respuestas = {};
+let historial = [];
+
+const opcionesSN = [
+    ["s", "Sí"],
+    ["n", "No"],
+    ["ne", "No evaluado"],
+    ["nt", "No evaluable"]
+];
+
+function pregunta(id, texto, opciones = opcionesSN) {
+    return {id, texto, opciones};
+}
+
+function escapeHTML(valor) {
+    return String(valor ?? "").replace(
+        /[&<>"']/g,
+        c => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        })[c]
+    );
+}
+
+function mostrar(html) {
+    document.getElementById("contenido").innerHTML = html;
+    window.scrollTo(0, 0);
+}
+
+// =====================================================
+// PANTALLA PRINCIPAL
+// =====================================================
+
+function inicio() {
+
+    mostrar(`
+        <section class="portada">
+            <h2>Evaluación del estado de conciencia</h2>
+            <p>Valoración estructurada mediante escalas neurológicas.</p>
+            <p>Glasgow y FOUR para pacientes adultos.</p>
+        </section>
+
+        <div class="grid">
+
+            <section class="tarjeta">
+                <h3>Escala de Glasgow</h3>
+                <p>Evalúa la apertura ocular, respuesta verbal
+                y respuesta motora.</p>
+                <h2>3 - 15 puntos</h2>
+                <button onclick="registro('glasgow')">
+                    Iniciar Glasgow
+                </button>
+            </section>
+
+            <section class="tarjeta">
+                <h3>Escala FOUR</h3>
+                <p>Evalúa respuesta ocular, motora,
+                reflejos del tronco encefálico y respiración.</p>
+                <h2>0 - 16 puntos</h2>
+                <button onclick="registro('four')">
+                    Iniciar FOUR
+                </button>
+            </section>
+
+            <section class="tarjeta">
+                <h3>Evaluación combinada</h3>
+                <p>Aplica ambos instrumentos y genera
+                un reporte conjunto.</p>
+                <h2>Glasgow + FOUR</h2>
+                <button onclick="registro('ambas')">
+                    Iniciar evaluación
+                </button>
+            </section>
+
+        </div>
+
+        <div class="aviso">
+            Proyecto académico para pacientes adultos.
+            Utilice datos ficticios durante las demostraciones.
+        </div>
+    `);
+}
+
+// =====================================================
+// REGISTRO DEL PACIENTE
+// =====================================================
+
+function registro(tipo) {
+
+    modo = tipo;
+
+    mostrar(`
+        <section class="panel">
+
+            <h2>Datos de identificación</h2>
+
+            <form onsubmit="guardarPaciente(event)">
+
+                <div class="grid">
+
+                    <div>
+                        <label>Identificador del paciente</label>
+                        <input id="paciente" required
+                        placeholder="Paciente 001">
+                    </div>
+
+                    <div>
+                        <label>Edad en años</label>
+                        <input id="edad" type="number"
+                        min="18" max="120" required>
+                    </div>
+
+                    <div>
+                        <label>Nombre del evaluador</label>
+                        <input id="evaluador" required>
+                    </div>
+
+                    <div>
+                        <label>Contexto clínico</label>
+                        <select id="contexto">
+                            <option>Valoración neurológica general</option>
+                            <option>Traumatismo craneoencefálico</option>
+                            <option>Paciente crítico</option>
+                            <option>Caso clínico simulado</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="acciones">
+                    <button type="submit">Comenzar evaluación</button>
+                    <button type="button" class="secundario"
+                    onclick="inicio()">Regresar</button>
+                </div>
+
+            </form>
+
+        </section>
+    `);
+}
+
+function guardarPaciente(event) {
+
+    event.preventDefault();
+
+    paciente = {
+        id: document.getElementById("paciente").value,
+        edad: document.getElementById("edad").value,
+        evaluador: document.getElementById("evaluador").value,
+        contexto: document.getElementById("contexto").value,
+        fecha: new Date().toLocaleString("es-MX")
+    };
+
+    respuestas = {};
+    etapaActual = 0;
+
+    construirEtapas();
+    mostrarEtapa();
+}
+
+// =====================================================
+// CUESTIONARIOS CLINICOS
+// =====================================================
+
+function construirEtapas() {
+
+    etapas = [];
+
+    etapas.push({
+        titulo: "Evaluación clínica previa",
+        preguntas: [
+
+            pregunta("sedacion",
+            "¿El paciente se encuentra bajo sedación o anestesia?"),
+
+            pregunta("intubacion",
+            "¿El paciente se encuentra intubado?"),
+
+            pregunta("bloqueo",
+            "¿Existe bloqueo neuromuscular que impida valorar la respuesta motora?"),
+
+            pregunta("impO",
+            "¿Existe algún impedimento para valorar la apertura ocular?"),
+
+            pregunta("impV",
+            "¿Existe algún impedimento para valorar la respuesta verbal?"),
+
+            pregunta("impM",
+            "¿Existe algún impedimento para valorar la respuesta motora?"),
+
+            pregunta("impB",
+            "¿Existe algún impedimento para valorar los reflejos del tronco encefálico?"),
+
+            pregunta("impR",
+            "¿Existe algún impedimento para valorar el patrón respiratorio?")
+        ]
+    });
+
+    // ESCALA DE GLASGOW
+
+    if (modo === "glasgow" || modo === "ambas") {
+
+        etapas.push({
+            titulo: "Glasgow - Apertura ocular",
+            preguntas: [
+
+                pregunta("ge4",
+                "¿Abre los ojos espontáneamente?"),
+
+                pregunta("ge3",
+                "¿Abre los ojos ante un estímulo sonoro?"),
+
+                pregunta("ge2",
+                "¿Abre los ojos ante un estímulo de presión?"),
+
+                pregunta("ge1",
+                "¿Existe ausencia completa de apertura ocular?")
+            ]
+        });
+
+        etapas.push({
+            titulo: "Glasgow - Respuesta verbal",
+            preguntas: [
+
+                pregunta("persona",
+                "¿Identifica correctamente quién es?"),
+
+                pregunta("lugar",
+                "¿Identifica correctamente dónde se encuentra?"),
+
+                pregunta("tiempo",
+                "¿Identifica correctamente el momento o fecha actual?"),
+
+                pregunta("conversa",
+                "¿Es capaz de mantener una conversación?"),
+
+                pregunta("palabras",
+                "¿Pronuncia palabras reconocibles?"),
+
+                pregunta("sonidos",
+                "¿Emite sonidos sin palabras reconocibles?"),
+
+                pregunta("sinVerbal",
+                "¿Existe ausencia completa de respuesta verbal?")
+            ]
+        });
+
+        etapas.push({
+            titulo: "Glasgow - Respuesta motora",
+            preguntas: [
+
+                pregunta("gm6",
+                "¿Obedece órdenes motoras simples?"),
+
+                pregunta("gm5",
+                "¿Localiza el estímulo de presión y dirige la mano hacia su origen?"),
+
+                pregunta("gm4",
+                "¿Presenta flexión normal o retirada?"),
+
+                pregunta("gm3",
+                "¿Presenta flexión anormal?"),
+
+                pregunta("gm2",
+                "¿Presenta extensión anormal?"),
+
+                pregunta("gm1",
+                "¿Existe ausencia completa de respuesta motora?")
+            ]
+        });
+    }
+
+    // ESCALA FOUR
+
+    if (modo === "four" || modo === "ambas") {
+
+        etapas.push({
+            titulo: "FOUR - Respuesta ocular",
+            preguntas: [
+
+                pregunta("seguimiento",
+                "¿Con los ojos abiertos realiza seguimiento visual?"),
+
+                pregunta("parpadeo",
+                "¿Parpadea correctamente a la orden?"),
+
+                pregunta("fe3",
+                "¿Mantiene los ojos abiertos sin seguimiento visual ni parpadeo a la orden?"),
+
+                pregunta("fe2",
+                "¿Con los ojos inicialmente cerrados, los abre ante la voz?"),
+
+                pregunta("fe1",
+                "¿Con los ojos inicialmente cerrados, los abre ante la presión?"),
+
+                pregunta("fe0",
+                "¿Permanece con los ojos cerrados a pesar de la valoración clínica?")
+            ]
+        });
+
+        etapas.push({
+            titulo: "FOUR - Respuesta motora",
+            preguntas: [
+
+                pregunta("pulgar",
+                "¿Levanta el pulgar a la orden?"),
+
+                pregunta("puno",
+                "¿Forma un puño a la orden?"),
+
+                pregunta("victoria",
+                "¿Realiza el signo de la victoria a la orden?"),
+
+                pregunta("fm3",
+                "¿Localiza el estímulo de presión?"),
+
+                pregunta("fm2",
+                "¿Presenta una respuesta de flexión?"),
+
+                pregunta("fm1",
+                "¿Presenta una respuesta de extensión?"),
+
+                pregunta("fm0",
+                "¿Existe ausencia de respuesta motora?"),
+
+                pregunta("mioclonias",
+                "¿Presenta únicamente mioclonías generalizadas?")
+            ]
+        });
+
+        etapas.push({
+            titulo: "FOUR - Reflejos del tronco encefálico",
+            preguntas: [
+
+                pregunta("pupilaD",
+                "¿Está presente el reflejo fotomotor derecho?"),
+
+                pregunta("pupilaI",
+                "¿Está presente el reflejo fotomotor izquierdo?"),
+
+                pregunta("pupilaFija",
+                "¿Existe una pupila fija y dilatada?"),
+
+                pregunta("cornealD",
+                "¿Está presente el reflejo corneal derecho?"),
+
+                pregunta("cornealI",
+                "¿Está presente el reflejo corneal izquierdo?"),
+
+                pregunta("tos",
+                "¿Está presente el reflejo tusígeno?"),
+
+                pregunta("categoriaB",
+                "Confirme la categoría clínica de los reflejos según FOUR:", [
+                    ["4", "Reflejos pupilares y corneales presentes"],
+                    ["3", "Una pupila fija y dilatada"],
+                    ["2", "Reflejo pupilar o corneal ausente"],
+                    ["1", "Reflejos pupilares y corneales ausentes, tos presente"],
+                    ["0", "Reflejos pupilares, corneales y tusígeno ausentes"],
+                    ["ne", "No es posible confirmar la categoría"],
+                    ["nt", "No evaluable"]
+                ])
+            ]
+        });
+
+        etapas.push({
+            titulo: "FOUR - Patrón respiratorio",
+            preguntas: [
+
+                pregunta("regular",
+                "¿Presenta respiración espontánea regular sin intubación?"),
+
+                pregunta("cheyne",
+                "¿Presenta respiración de Cheyne-Stokes sin intubación?"),
+
+                pregunta("irregular",
+                "¿Presenta respiración espontánea irregular sin intubación?"),
+
+                pregunta("ventilador",
+                "¿Se encuentra conectado a ventilación mecánica?"),
+
+                pregunta("superior",
+                "¿Inicia respiraciones por encima de la frecuencia programada del ventilador?"),
+
+                pregunta("ritmo",
+                "¿Respira únicamente al ritmo programado del ventilador?"),
+
+                pregunta("apnea",
+                "¿Existe apnea?")
+            ]
+        });
+    }
+}
+
+// =====================================================
+// PRESENTACION DE PREGUNTAS
+// =====================================================
+
+function mostrarEtapa() {
+
+    const etapa = etapas[etapaActual];
+
+    const porcentaje = Math.round(
+        etapaActual / etapas.length * 100
+    );
+
+    let html = `
+
+        <section class="panel">
+
+            <p>Paciente: ${escapeHTML(paciente.id)}</p>
+
+            <p>Etapa ${etapaActual + 1} de ${etapas.length}</p>
+
+            <div class="barra">
+                <div class="progreso"
+                style="width:${porcentaje}%"></div>
+            </div>
+
+            <h2>${etapa.titulo}</h2>
+
+            <div class="aviso">
+                Registre únicamente hallazgos observados.
+                No aplique estímulos innecesarios.
+                Seleccione "No evaluado" cuando corresponda.
+            </div>
+
+            <form onsubmit="siguiente(event)">
+    `;
+
+    etapa.preguntas.forEach((p, i) => {
+
+        html += `
+            <div class="pregunta">
+                <strong>${i + 1}. ${p.texto}</strong>
+        `;
+
+        p.opciones.forEach(([valor, texto]) => {
+
+            const marcado =
+                respuestas[p.id] === valor ? "checked" : "";
+
+            html += `
+                <label class="opcion">
+                    <input type="radio"
+                    name="${p.id}"
+                    value="${valor}"
+                    ${marcado}
+                    required>
+                    ${texto}
+                </label>
+            `;
+        });
+
+        html += "</div>";
+    });
+
+    html += `
+
+        <p id="mensajeError" class="error"></p>
+
+        <div class="acciones">
+
+            ${etapaActual > 0 ?
+                `<button type="button" class="secundario"
+                onclick="anterior()">Anterior</button>` : ""}
+
+            <button type="submit">
+                ${etapaActual === etapas.length - 1 ?
+                "Generar reporte" : "Siguiente apartado"}
+            </button>
+
+        </div>
+
+        </form>
+        </section>
+    `;
+
+    mostrar(html);
+}
+
+function guardarRespuestas() {
+
+    const etapa = etapas[etapaActual];
+
+    etapa.preguntas.forEach(p => {
+
+        const elemento = document.querySelector(
+            `input[name="${p.id}"]:checked`
+        );
+
+        if (elemento) {
+            respuestas[p.id] = elemento.value;
+        }
+    });
+}
+
+function anterior() {
+
+    guardarRespuestas();
+
+    if (etapaActual > 0) {
+        etapaActual--;
+        mostrarEtapa();
+    }
+}
+
+function siguiente(event) {
+
+    event.preventDefault();
+
+    guardarRespuestas();
+
+    const error = validar();
+
+    if (error) {
+
+        document.getElementById("mensajeError").textContent = error;
+        return;
+    }
+
+    if (etapaActual < etapas.length - 1) {
+
+        etapaActual++;
+        mostrarEtapa();
+
+    } else {
+
+        generarResultados();
+    }
+}
+
+// =====================================================
+// VALIDACION DE RESPUESTAS
+// =====================================================
+
+const r = id => respuestas[id];
+
+function alguno(ids) {
+    return ids.some(id => r(id) === "s");
+}
+
+function todosNo(ids) {
+    return ids.every(id => r(id) === "n");
+}
+
+function validar() {
+
+    const titulo = etapas[etapaActual].titulo;
+
+    if (titulo === "Glasgow - Apertura ocular") {
+
+        if (r("ge1") === "s" &&
+            alguno(["ge4", "ge3", "ge2"])) {
+
+            return "Existe una contradicción en la apertura ocular.";
+        }
+    }
+
+    if (titulo === "Glasgow - Respuesta verbal") {
+
+        if (r("sinVerbal") === "s" &&
+            alguno(["persona", "lugar", "tiempo",
+                    "conversa", "palabras", "sonidos"])) {
+
+            return "Existe una contradicción en la respuesta verbal.";
+        }
+
+        if (r("conversa") === "s" &&
+            r("palabras") === "n") {
+
+            return "Una conversación requiere palabras reconocibles.";
+        }
+    }
+
+    if (titulo === "Glasgow - Respuesta motora") {
+
+        if (r("gm1") === "s" &&
+            alguno(["gm6", "gm5", "gm4", "gm3", "gm2"])) {
+
+            return "No puede existir ausencia motora y respuesta motora simultáneamente.";
+        }
+    }
+
+    if (titulo === "FOUR - Respuesta ocular") {
+
+        if (r("fe0") === "s" &&
+            alguno(["seguimiento", "parpadeo",
+                    "fe3", "fe2", "fe1"])) {
+
+            return "Revise las respuestas oculares de FOUR.";
+        }
+
+        if (r("fe3") === "s" &&
+            alguno(["seguimiento", "parpadeo"])) {
+
+            return "Los hallazgos de seguimiento visual son contradictorios.";
+        }
+    }
+
+    if (titulo === "FOUR - Respuesta motora") {
+
+        if ((r("fm0") === "s" || r("mioclonias") === "s") &&
+            alguno(["pulgar", "puno", "victoria",
+                    "fm3", "fm2", "fm1"])) {
+
+            return "Revise las respuestas motoras de FOUR.";
+        }
+    }
+
+    if (titulo === "FOUR - Patrón respiratorio") {
+
+        const patrones = [
+            "regular", "cheyne", "irregular", "apnea"
+        ];
+
+        if (patrones.filter(id => r(id) === "s").length > 1) {
+
+            return "Seleccione hallazgos respiratorios coherentes.";
+        }
+
+        if (r("superior") === "s" && r("ritmo") === "s") {
+
+            return "Los datos del ventilador son contradictorios.";
+        }
+    }
+
+    return "";
+}
+
+// =====================================================
+// FUNCIONES DE PUNTUACION
+// =====================================================
+
+function dato(puntos, descripcion) {
+    return {puntos, descripcion};
+}
+
+function incompleto() {
+    return dato(null, "NE: Información insuficiente");
+}
+
+function noEvaluable() {
+    return dato(null, "NT: Parámetro no evaluable");
+}
+
+function impedimento(ids) {
+
+    if (ids.some(id => ["s", "nt"].includes(r(id)))) {
+        return noEvaluable();
+    }
+
+    if (ids.some(id => r(id) !== "n")) {
+        return incompleto();
+    }
+
+    return null;
+}
+
+function jerarquia(criterios) {
+
+    for (const [id, puntos, descripcion] of criterios) {
+
+        if (r(id) === "nt") return noEvaluable();
+
+        if (r(id) !== "s" && r(id) !== "n") {
+            return incompleto();
+        }
+
+        if (r(id) === "s") {
+            return dato(puntos, descripcion);
+        }
+    }
+
+    return incompleto();
+}
+
+// =====================================================
+// CALCULO DE GLASGOW
+// =====================================================
+
+function calcularGlasgow() {
+
+    const E = impedimento(["impO"]) || jerarquia([
+
+        ["ge4", 4, "Apertura espontánea"],
+        ["ge3", 3, "Apertura al sonido"],
+        ["ge2", 2, "Apertura a la presión"],
+        ["ge1", 1, "Sin apertura ocular"]
+    ]);
+
+    let V = impedimento(["impV", "intubacion"]);
+
+    if (!V) {
+
+        if (r("conversa") === "s") {
+
+            const orientacion = [
+                r("persona"), r("lugar"), r("tiempo")
+            ];
+
+            if (orientacion.every(x => x === "s")) {
+
+                V = dato(5, "Respuesta orientada");
+
+            } else if (orientacion.includes("n")) {
+
+                V = dato(4, "Conversación confusa");
+
+            } else {
+
+                V = incompleto();
+            }
+
+        } else if (r("conversa") === "n") {
+
+            V = jerarquia([
+                ["palabras", 3, "Palabras reconocibles"],
+                ["sonidos", 2, "Sonidos incomprensibles"],
+                ["sinVerbal", 1, "Sin respuesta verbal"]
+            ]);
+
+        } else {
+
+            V = r("conversa") === "nt" ?
+                noEvaluable() : incompleto();
+        }
+    }
+
+    const M = impedimento(["impM", "bloqueo"]) ||
+        jerarquia([
+
+            ["gm6", 6, "Obedece órdenes"],
+            ["gm5", 5, "Localiza el estímulo"],
+            ["gm4", 4, "Flexión normal"],
+            ["gm3", 3, "Flexión anormal"],
+            ["gm2", 2, "Extensión anormal"],
+            ["gm1", 1, "Sin respuesta motora"]
+        ]);
+
+    return {E, V, M};
+}
+
+// =====================================================
+// CALCULO DE FOUR
+// =====================================================
+
+function calcularFour() {
+
+    let E = impedimento(["impO"]);
+
+    if (!E) {
+
+        if (alguno(["seguimiento", "parpadeo"])) {
+
+            E = dato(4, "Seguimiento visual o parpadeo a la orden");
+
+        } else if (todosNo(["seguimiento", "parpadeo"])) {
+
+            E = jerarquia([
+
+                ["fe3", 3, "Ojos abiertos sin seguimiento"],
+                ["fe2", 2, "Apertura a la voz"],
+                ["fe1", 1, "Apertura a la presión"],
+                ["fe0", 0, "Sin apertura ocular"]
+            ]);
+
+        } else {
+
+            E = incompleto();
+        }
+    }
+
+    let M = impedimento(["impM", "bloqueo"]);
+
+    if (!M) {
+
+        if (alguno(["pulgar", "puno", "victoria"])) {
+
+            M = dato(4, "Realiza gestos a la orden");
+
+        } else if (todosNo(["pulgar", "puno", "victoria"])) {
+
+            M = jerarquia([
+
+                ["fm3", 3, "Localiza el estímulo"],
+                ["fm2", 2, "Respuesta de flexión"],
+                ["fm1", 1, "Respuesta de extensión"]
+            ]);
+
+            if (todosNo(["fm3", "fm2", "fm1"]) &&
+                alguno(["fm0", "mioclonias"])) {
+
+                M = dato(0, "Sin respuesta motora o mioclonías generalizadas");
+            }
+
+        } else {
+
+            M = incompleto();
+        }
+    }
+
+    let B = impedimento(["impB"]);
+
+    if (!B) {
+
+        const categoria = r("categoriaB");
+
+        const descripciones = {
+            "4": "Reflejos pupilares y corneales presentes",
+            "3": "Una pupila fija y dilatada",
+            "2": "Reflejo pupilar o corneal ausente",
+            "1": "Reflejos pupilares y corneales ausentes, tos presente",
+            "0": "Reflejos pupilares, corneales y tusígeno ausentes"
+        };
+
+        const pupilas = ["pupilaD", "pupilaI"];
+        const corneales = ["cornealD", "cornealI"];
+        const reflejos = [...pupilas, ...corneales];
+
+        let compatible = false;
+
+        if (categoria === "4") {
+
+            compatible = reflejos.every(id => r(id) === "s")
+                && r("pupilaFija") === "n";
+
+        } else if (categoria === "3") {
+
+            compatible = r("pupilaFija") === "s"
+                && pupilas.filter(id => r(id) === "n").length === 1
+                && pupilas.filter(id => r(id) === "s").length === 1
+                && corneales.every(id => r(id) === "s");
+
+        } else if (categoria === "2") {
+
+            compatible = (
+                todosNo(pupilas) && alguno(corneales)
+            ) || (
+                todosNo(corneales) && alguno(pupilas)
+            );
+
+        } else if (categoria === "1") {
+
+            compatible = todosNo(reflejos) && r("tos") === "s";
+
+        } else if (categoria === "0") {
+
+            compatible = todosNo(reflejos) && r("tos") === "n";
+        }
+
+        if (categoria === "nt") {
+
+            B = noEvaluable();
+
+        } else if (compatible && categoria in descripciones) {
+
+            B = dato(Number(categoria), descripciones[categoria]);
+
+        } else {
+
+            B = dato(null,
+                "NE: Categoría no confirmada por los hallazgos registrados. Requiere revisión clínica.");
+        }
+    }
+
+    let R = impedimento(["impR"]);
+
+    if (!R) {
+
+        if (r("intubacion") === "n") {
+
+            if (r("apnea") === "s" &&
+                todosNo(["regular", "cheyne", "irregular"])) {
+
+                R = dato(0, "Apnea");
+
+            } else {
+
+                R = jerarquia([
+
+                    ["regular", 4, "Respiración regular"],
+                    ["cheyne", 3, "Respiración de Cheyne-Stokes"],
+                    ["irregular", 2, "Respiración irregular"]
+                ]);
+            }
+
+        } else if (r("intubacion") === "s" &&
+                   r("ventilador") === "s") {
+
+            R = jerarquia([
+
+                ["superior", 1, "Respira por encima de la frecuencia del ventilador"],
+                ["ritmo", 0, "Respira al ritmo del ventilador"]
+            ]);
+
+        } else {
+
+            R = incompleto();
+        }
+    }
+
+    return {E, M, B, R};
+}
+
+// =====================================================
+// INTERPRETACION CLINICA
+// =====================================================
+
+function totalizar(componentes) {
+
+    const valores = Object.values(componentes)
+        .map(x => x.puntos);
+
+    if (valores.includes(null)) {
+        return null;
+    }
+
+    return valores.reduce((a, b) => a + b, 0);
+}
+
+function interpretar(escala, total) {
+
+    if (total === null) {
+
+        return "Puntuación no calculable. Existen parámetros incompletos o no evaluables.";
+    }
+
+    if (escala === "Glasgow") {
+
+        if (total <= 8) {
+
+            return "Puntuación baja. Clasificación grave en contexto de TCE. Requiere valoración médica inmediata, incluida la protección de la vía aérea.";
+        }
+
+        if (total <= 12) {
+
+            return "Clasificación moderada en contexto de traumatismo craneoencefálico.";
+        }
+
+        if (total <= 14) {
+
+            return "Clasificación leve en contexto de traumatismo craneoencefálico.";
+        }
+
+        return "Puntuación máxima de Glasgow. No descarta lesión neurológica.";
+    }
+
+    if (total === 16) {
+
+        return "Puntuación máxima de FOUR.";
+    }
+
+    if (total === 0) {
+
+        return "Afectación extrema de los componentes evaluados. No establece por sí sola muerte encefálica.";
+    }
+
+    return "Puntuación inferior al máximo de FOUR. Interpretar los componentes individualmente y considerar el contexto clínico.";
+}
+
+// =====================================================
+// REPORTE DE RESULTADOS
+// =====================================================
+
+function tarjetaResultado(escala, componentes) {
+
+    const total = totalizar(componentes);
+    const maximo = escala === "Glasgow" ? 15 : 16;
+
+    const nombres = {
+
+        E: "Respuesta ocular",
+        V: "Respuesta verbal",
+        M: "Respuesta motora",
+        B: "Reflejos del tronco encefálico",
+        R: "Patrón respiratorio"
+    };
+
+    const registro = Object.entries(componentes)
+        .map(([letra, valor]) =>
+            letra + (valor.puntos === null ?
+                (valor.descripcion.startsWith("NT") ? "NT" : "NE")
+                : valor.puntos))
+        .join(" ");
+
+    let html = `
+
+        <section class="panel">
+
+            <h2>Escala ${escala}</h2>
+
+            <div class="resultado">
+
+                <div class="puntuacion">
+                    ${total === null ? "No calculable" : total + "/" + maximo}
+                </div>
+
+                <p><strong>Registro:</strong> ${registro}</p>
+
+                <p>${interpretar(escala, total)}</p>
+
+            </div>
+    `;
+
+    for (const [letra, valor] of Object.entries(componentes)) {
+
+        const limite = escala === "Glasgow" ?
+            ({E:4, V:5, M:6})[letra] : 4;
+
+        html += `
+
+            <div class="pregunta">
+
+                <strong>${nombres[letra]}</strong>
+
+                <h3>
+                    ${valor.puntos === null ?
+                        "Sin puntuación" :
+                        valor.puntos + "/" + limite}
+                </h3>
+
+                <p>${valor.descripcion}</p>
+
+                <div class="barra">
+                    <div class="progreso"
+                    style="width:${valor.puntos === null ?
+                        0 : valor.puntos / limite * 100}%">
+                    </div>
+                </div>
+
+            </div>
+        `;
+    }
+
+    html += "</section>";
+
+    return {
+        html,
+        escala,
+        total,
+        maximo,
+        registro,
+        componentes
+    };
+}
+
+function generarResultados() {
+
+    const resultados = [];
+
+    if (modo === "glasgow" || modo === "ambas") {
+
+        resultados.push(
+            tarjetaResultado("Glasgow", calcularGlasgow())
+        );
+    }
+
+    if (modo === "four" || modo === "ambas") {
+
+        resultados.push(
+            tarjetaResultado("FOUR", calcularFour())
+        );
+    }
+
+    historial.push({
+        paciente: {...paciente},
+        resultados,
+        respuestas: {...respuestas}
+    });
+
+    mostrarReporte(paciente, resultados, respuestas);
+}
+
+function mostrarReporte(datos, resultados, factores) {
+
+    let html = `
+
+        <section class="panel">
+
+            <h2>Reporte de evaluación neurológica</h2>
+
+            <p><strong>Paciente:</strong> ${escapeHTML(datos.id)}</p>
+
+            <p><strong>Edad:</strong> ${escapeHTML(datos.edad)} años</p>
+
+            <p><strong>Evaluador:</strong> ${escapeHTML(datos.evaluador)}</p>
+
+            <p><strong>Fecha:</strong> ${escapeHTML(datos.fecha)}</p>
+
+            <p><strong>Contexto:</strong> ${escapeHTML(datos.contexto)}</p>
+
+            <div class="barra">
+                <div class="progreso" style="width:100%"></div>
+            </div>
+
+            <p>Evaluación finalizada</p>
+
+        </section>
+    `;
+
+    resultados.forEach(x => html += x.html);
+
+    if (factores.sedacion !== "n") {
+
+        html += `
+            <div class="aviso">
+                Posible interferencia por sedación.
+                Interpretar los resultados con precaución.
+            </div>
+        `;
+    }
+
+    if (factores.apnea === "s") {
+
+        html += `
+            <div class="aviso">
+                ALERTA: Se ha registrado apnea.
+                Requiere atención médica inmediata.
+            </div>
+        `;
+    }
+
+    html += `
+
+        <section class="panel">
+
+            <h3>Consideraciones clínicas</h3>
+
+            <p>NT: No evaluable.</p>
+            <p>NE: Información insuficiente o no evaluada.</p>
+
+            <p>Las puntuaciones de Glasgow y FOUR no son
+            directamente equivalentes.</p>
+
+            <p>Este reporte es educativo y no sustituye
+            una valoración clínica profesional.</p>
+
+            <div class="acciones">
+
+                <button onclick="window.print()">
+                    Imprimir o guardar PDF
+                </button>
+
+                <button onclick="inicio()">
+                    Nueva evaluación
+                </button>
+
+                <button class="secundario"
+                onclick="verHistorial()">
+                    Consultar historial
+                </button>
+
+            </div>
+
+        </section>
+    `;
+
+    mostrar(html);
+}
+
+// =====================================================
+// HISTORIAL
+// =====================================================
+
+function verHistorial() {
+
+    let html = `
+
+        <section class="panel">
+            <h2>Historial de evaluaciones</h2>
+    `;
+
+    if (historial.length === 0) {
+
+        html += "<p>No existen evaluaciones registradas.</p>";
+
+    } else {
+
+        html += `
+
+            <div class="tabla">
+            <table>
+
+                <tr>
+                    <th>Paciente</th>
+                    <th>Fecha</th>
+                    <th>Resultados</th>
+                    <th>Reporte</th>
+                </tr>
+        `;
+
+        historial.forEach((h, i) => {
+
+            html += `
+
+                <tr>
+
+                    <td>${escapeHTML(h.paciente.id)}</td>
+
+                    <td>${escapeHTML(h.paciente.fecha)}</td>
+
+                    <td>
+                        ${h.resultados.map(x =>
+                            x.escala + ": " +
+                            (x.total === null ?
+                            "No calculable" :
+                            x.total + "/" + x.maximo)
+                        ).join("<br>")}
+                    </td>
+
+                    <td>
+                        <button onclick="abrirReporte(${i})">
+                            Ver reporte
+                        </button>
+                    </td>
+
+                </tr>
+            `;
+        });
+
+        html += "</table></div>";
+    }
+
+    html += `
+
+        <p>El historial se conserva durante la sesión actual.</p>
+
+        <button onclick="inicio()">Regresar al inicio</button>
+
+        </section>
+    `;
+
+    mostrar(html);
+}
+
+function abrirReporte(indice) {
+
+    const h = historial[indice];
+
+    mostrarReporte(h.paciente, h.resultados, h.respuestas);
+}
+
+// =====================================================
+// INFORMACION Y BIBLIOGRAFIA
+// =====================================================
+
+function bibliografia() {
+
+    mostrar(`
+
+        <section class="panel">
+
+            <h2>Acerca de NeuroEval</h2>
+
+            <p>Sistema digital de apoyo educativo para
+            la evaluación del estado de conciencia.</p>
+
+            <h3>Escala de Glasgow</h3>
+
+            <p>Evalúa apertura ocular, respuesta verbal
+            y respuesta motora.</p>
+
+            <div class="tabla">
+            <table>
+                <tr><th>Puntuación</th><th>Clasificación en TCE</th></tr>
+                <tr><td>13 - 15</td><td>Leve</td></tr>
+                <tr><td>9 - 12</td><td>Moderado</td></tr>
+                <tr><td>3 - 8</td><td>Grave</td></tr>
+            </table>
+            </div>
+
+            <h3>Escala FOUR</h3>
+
+            <p>Evalúa respuesta ocular, motora, reflejos
+            del tronco encefálico y respiración.</p>
+
+            <p>Puntuación total de 0 a 16 puntos.</p>
+
+            <h3>Referencias bibliográficas</h3>
+
+            <ol>
+
+                <li>
+                    Teasdale G, Jennett B.
+                    Assessment of coma and impaired consciousness.
+                    Lancet. 1974;2:81-84.
+                </li>
+
+                <li>
+                    Teasdale G, et al.
+                    The Glasgow Coma Scale at 40 years.
+                    Lancet Neurol. 2014;13:844-854.
+                </li>
+
+                <li>
+                    Wijdicks EFM, et al.
+                    Validation of a new coma scale: The FOUR score.
+                    Ann Neurol. 2005;58:585-593.
+                </li>
+
+                <li>
+                    <a href="https://www.glasgowcomascale.org/"
+                    target="_blank" rel="noopener noreferrer">
+                        Glasgow Coma Scale - Sitio oficial
+                    </a>
+                </li>
+
+            </ol>
+
+            <div class="aviso">
+                Las preguntas complementarias constituyen
+                una adaptación académica de los criterios originales.
+                NeuroEval no es un dispositivo médico validado.
+            </div>
+
+            <button onclick="inicio()">Regresar al inicio</button>
+
+        </section>
+    `);
+}
+
+// INICIO DE LA APLICACION
+
+inicio();
+
+</script>
+
+</body>
+</html>
